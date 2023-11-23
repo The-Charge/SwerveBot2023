@@ -130,8 +130,7 @@ public class NavXSwerve extends SwerveIMU
     return new Rotation3d(new Quaternion(gyro.getQuaternionW() * 0.5,
                                          gyro.getQuaternionX() * 0.5,
                                          gyro.getQuaternionY() * 0.5,
-                                         gyro.getQuaternionZ() *
-                                         0.5)); // TODO: Remove when Studica's official release is made.
+                                         gyro.getQuaternionZ() * 0.5)); // TODO: Remove when Studica's official release is made.
   }
 
   /**
