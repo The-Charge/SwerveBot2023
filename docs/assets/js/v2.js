@@ -21,9 +21,9 @@ function getFreeSpeedFromMotors() {
   console.log(motor_count);
   switch (highest_motor) {
     case "neo":
-      // $("#freespeedrpm-input").val(5676);
+    // $("#freespeedrpm-input").val(5676);
     case "falcon":
-      // $("#freespeedrpm-input").val(6800);
+    // $("#freespeedrpm-input").val(6800);
   }
 }
 
@@ -57,13 +57,13 @@ function jsonify(name) {
         data[struct] = {};
       }
       data[struct][val.name.substring(val.name.indexOf('_') + 1)] =
-          isNumeric(val.value) ?
-              parseFloat(val.value) :
-              (val.value === "" ? null : val.value);
-    } else {
-      data[val.name] = isNumeric(val.value) ?
+        isNumeric(val.value) ?
           parseFloat(val.value) :
           (val.value === "" ? null : val.value);
+    } else {
+      data[val.name] = isNumeric(val.value) ?
+        parseFloat(val.value) :
+        (val.value === "" ? null : val.value);
     }
   });
   $(`#${name}-form input:checkbox`).each(function () { // Update checkboxes because unchecked checkboxes are not recognized by jQuery serializeArray
@@ -73,19 +73,19 @@ function jsonify(name) {
         data[struct] = {};
       }
       data[struct][this.name.substring(
-          this.name.indexOf('_') + 1)] = this.checked;
+        this.name.indexOf('_') + 1)] = this.checked;
     } else {
       data[this.name] = this.checked;
     }
   });
   if (name == "swervedrive") {
     data['modules'] =
-        [
-          "frontleft.json",
-          "frontright.json",
-          "backleft.json",
-          "backright.json"
-        ]
+      [
+        "frontleft.json",
+        "frontright.json",
+        "backleft.json",
+        "backright.json"
+      ]
   }
   return JSON.stringify(data, null, 2);
 }
@@ -95,7 +95,7 @@ function isNumeric(str) {
     return false
   } // we only process strings!
   return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-      !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+    !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
 }
 
 function copyText(name) {
@@ -123,26 +123,26 @@ const saveAs = (blob, name) => {
 
 function zipDownload() {
   const zip = new JSZip();
-    let swf = zip.folder("swerve")
-      let cp = swf.file("controllerproperties.json", getText("controllerproperties"));
-      let sd = swf.file("swervedrive.json", getText("swervedrive"));
-      let mod = swf.folder("modules")
-        let pp = mod.file("physicalproperties.json", getText("physicalproperties"));
-        let fl = mod.file("frontleft.json", getText("frontleft"));
-        let fr = mod.file("frontright.json", getText("frontright"));
-        let bl = mod.file("backleft.json", getText("backleft"));
-        let br = mod.file("backright.json", getText("backright"));
-        let pidf = mod.file("pidfproperties.json", getText("pidfproperties"));
+  let swf = zip.folder("swerve")
+  let cp = swf.file("controllerproperties.json", getText("controllerproperties"));
+  let sd = swf.file("swervedrive.json", getText("swervedrive"));
+  let mod = swf.folder("modules")
+  let pp = mod.file("physicalproperties.json", getText("physicalproperties"));
+  let fl = mod.file("frontleft.json", getText("frontleft"));
+  let fr = mod.file("frontright.json", getText("frontright"));
+  let bl = mod.file("backleft.json", getText("backleft"));
+  let br = mod.file("backright.json", getText("backright"));
+  let pidf = mod.file("pidfproperties.json", getText("pidfproperties"));
 
-  zip.generateAsync({type:"blob"}).then(function (blob) {saveAs(blob, "YAGSL Config.zip")});
+  zip.generateAsync({ type: "blob" }).then(function (blob) { saveAs(blob, "YAGSL Config.zip") });
   console.log("Downloaded YAGSL Config zip");
 }
 
 $(function () {
   const tooltipTriggerList = document.querySelectorAll(
-      '[data-bs-toggle="tooltip"]'); // Initialize tooltips: https://getbootstrap.com/docs/5.3/components/tooltips/#enable-tooltips
+    '[data-bs-toggle="tooltip"]'); // Initialize tooltips: https://getbootstrap.com/docs/5.3/components/tooltips/#enable-tooltips
   const tooltipList = [...tooltipTriggerList].map(
-      tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
   $('a').click(function () {
     window.open(this.href, '_blank');

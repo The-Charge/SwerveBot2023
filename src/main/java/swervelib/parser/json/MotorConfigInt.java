@@ -3,8 +3,7 @@ package swervelib.parser.json;
 /**
  * Used to store ints for motor configuration.
  */
-public class MotorConfigInt
-{
+public class MotorConfigInt {
 
   /**
    * Drive motor.
@@ -18,8 +17,7 @@ public class MotorConfigInt
   /**
    * Default constructor.
    */
-  public MotorConfigInt()
-  {
+  public MotorConfigInt() {
   }
 
   /**
@@ -28,8 +26,7 @@ public class MotorConfigInt
    * @param drive Drive data.
    * @param angle Angle data.
    */
-  public MotorConfigInt(int drive, int angle)
-  {
+  public MotorConfigInt(int drive, int angle) {
     this.angle = angle;
     this.drive = drive;
   }

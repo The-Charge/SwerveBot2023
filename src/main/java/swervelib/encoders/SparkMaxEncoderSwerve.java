@@ -11,29 +11,28 @@ import swervelib.motors.SwerveMotor;
 /**
  * SparkMax absolute encoder, attached through the data port.
  */
-public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
-{
+public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder {
 
   /**
-   * The {@link AbsoluteEncoder} representing the duty cycle encoder attached to the SparkMax.
+   * The {@link AbsoluteEncoder} representing the duty cycle encoder attached to
+   * the SparkMax.
    */
   public AbsoluteEncoder encoder;
 
   /**
-   * Create the {@link SparkMaxEncoderSwerve} object as a duty cycle from the {@link CANSparkMax} motor.
+   * Create the {@link SparkMaxEncoderSwerve} object as a duty cycle from the
+   * {@link CANSparkMax} motor.
    *
    * @param motor            Motor to create the encoder from.
-   * @param conversionFactor The conversion factor to set if the output is not from 0 to 360.
+   * @param conversionFactor The conversion factor to set if the output is not
+   *                         from 0 to 360.
    */
-  public SparkMaxEncoderSwerve(SwerveMotor motor, int conversionFactor)
-  {
-    if (motor.getMotor() instanceof CANSparkMax)
-    {
+  public SparkMaxEncoderSwerve(SwerveMotor motor, int conversionFactor) {
+    if (motor.getMotor() instanceof CANSparkMax) {
       encoder = ((CANSparkMax) motor.getMotor()).getAbsoluteEncoder(Type.kDutyCycle);
       configureSparkMax(() -> encoder.setVelocityConversionFactor(conversionFactor));
       configureSparkMax(() -> encoder.setPositionConversionFactor(conversionFactor));
-    } else
-    {
+    } else {
       throw new RuntimeException("Motor given to instantiate SparkMaxEncoder is not a CANSparkMax");
     }
   }
@@ -43,12 +42,9 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
    *
    * @param config Lambda supplier returning the error state.
    */
-  private void configureSparkMax(Supplier<REVLibError> config)
-  {
-    for (int i = 0; i < maximumRetries; i++)
-    {
-      if (config.get() == REVLibError.kOk)
-      {
+  private void configureSparkMax(Supplier<REVLibError> config) {
+    for (int i = 0; i < maximumRetries; i++) {
+      if (config.get() == REVLibError.kOk) {
         return;
       }
     }
@@ -59,8 +55,7 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
    * Reset the encoder to factory defaults.
    */
   @Override
-  public void factoryDefault()
-  {
+  public void factoryDefault() {
     // Do nothing
   }
 
@@ -68,8 +63,7 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
    * Clear sticky faults on the encoder.
    */
   @Override
-  public void clearStickyFaults()
-  {
+  public void clearStickyFaults() {
     // Do nothing
   }
 
@@ -79,8 +73,7 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
    * @param inverted Whether the encoder is inverted.
    */
   @Override
-  public void configure(boolean inverted)
-  {
+  public void configure(boolean inverted) {
     encoder.setInverted(inverted);
   }
 
@@ -90,8 +83,7 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
    * @return Absolute position in degrees from [0, 360).
    */
   @Override
-  public double getAbsolutePosition()
-  {
+  public double getAbsolutePosition() {
     return encoder.getPosition();
   }
 
@@ -101,8 +93,7 @@ public class SparkMaxEncoderSwerve extends SwerveAbsoluteEncoder
    * @return Absolute encoder object.
    */
   @Override
-  public Object getAbsoluteEncoder()
-  {
+  public Object getAbsoluteEncoder() {
     return encoder;
   }
 }
