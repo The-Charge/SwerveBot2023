@@ -39,6 +39,9 @@ public final class Constants {
   public static final class Drivebase {
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
+
+    public static final double ROTATION_RATE_PER_SEC = 0.2; //5 seconds to go 180
+    public static final double MIN_OMEGA_RADIANS_PER_SECOND = 0.01;
   }
 
   public static class OperatorConstants {
