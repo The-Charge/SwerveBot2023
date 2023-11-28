@@ -40,13 +40,13 @@ public final class Constants {
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
 
-    public static final double ROTATION_RATE_PER_SEC = 0.2; //5 seconds to go 180
-    public static final double MIN_OMEGA_RADIANS_PER_SECOND = 0.01;
+    public static final double ROTATION_RATE_PER_SEC = 0.4; //2.5 seconds to go 180
+    public static final double MIN_OMEGA_RADIANS_PER_SECOND = 1;
   }
 
   public static class OperatorConstants {
     // Joystick Deadband
-    public static final double LEFT_X_DEADBAND = 0.01;
-    public static final double LEFT_Y_DEADBAND = 0.01;
+    public static final double LEFT_X_DEADBAND = 0.25;
+    public static final double LEFT_Y_DEADBAND = 0.25;
   }
 }

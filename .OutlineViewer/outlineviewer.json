@@ -1,0 +1,40 @@
+{
+  "Connections": {
+    "open": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "2619"
+  },
+  "Persistent Values": {
+    "open": false
+  },
+  "Retained Values": {
+    "open": false
+  },
+  "Server": {
+    "Publishers": {
+      "open": true
+    }
+  },
+  "shuffleboard@1": {
+    "Publishers": {
+      "open": true
+    },
+    "Subscribers": {
+      "open": true
+    },
+    "open": true
+  },
+  "transitory": {
+    "Shuffleboard": {
+      "open": true
+    },
+    "SmartDashboard": {
+      "open": true,
+      "swerve": {
+        "open": true
+      }
+    }
+  }
+}
