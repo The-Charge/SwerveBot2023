@@ -8,6 +8,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -22,10 +23,10 @@ import swervelib.math.SwerveMath;
  */
 public class CustomDrive extends CommandBase {
 
-  public static final double MAX_HEADING = 1;
+  private static final double MAX_HEADING = 1;
   private final SwerveSubsystem swerve;
   private final DoubleSupplier vX, vY, heading;
-  private double customHeading;
+  private double customHeading, minOmegaRadiansPerSecond;
   private SlewRateLimiter filter;
 
   /**
@@ -60,6 +61,13 @@ public class CustomDrive extends CommandBase {
     filter = new SlewRateLimiter(Constants.Drivebase.ROTATION_RATE_PER_SEC);
     customHeading = 0;
 
+    if(!RobotBase.isSimulation()) {
+      minOmegaRadiansPerSecond = Constants.Drivebase.MIN_OMEGA_RADIANS_PER_SECOND;
+    }
+    else {
+      minOmegaRadiansPerSecond = 0.001;
+    }
+
     addRequirements(swerve);
   }
 
@@ -80,13 +88,13 @@ public class CustomDrive extends CommandBase {
   @Override
   public void execute() {
 
-    if(heading.getAsDouble() > swerve.getSwerveController().config.angleJoyStickRadiusDeadband) {
+    if(heading.getAsDouble() < -swerve.getSwerveController().config.angleJoyStickRadiusDeadband) {
       if(customHeading >= MAX_HEADING) {
         filter.reset(-MAX_HEADING);
       }
       customHeading = filter.calculate(MAX_HEADING);
     }
-    else if(heading.getAsDouble() < -swerve.getSwerveController().config.angleJoyStickRadiusDeadband) {
+    else if(heading.getAsDouble() > swerve.getSwerveController().config.angleJoyStickRadiusDeadband) {
       if(customHeading <= -MAX_HEADING) {
         filter.reset(MAX_HEADING);
       }
@@ -97,15 +105,17 @@ public class CustomDrive extends CommandBase {
       otherwise there will be a large jump in the value when the joystick commands a rotation */
       filter.reset(customHeading);
     }
-    SmartDashboard.putNumber("Custom Heading", customHeading);
 
-    ChassisSpeeds desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),
+    SmartDashboard.putNumber("A Custom Heading", customHeading);
+
+    ChassisSpeeds desiredSpeeds = swerve.getTargetSpeeds(-vX.getAsDouble(), -vY.getAsDouble(),
         new Rotation2d(customHeading * Math.PI));
 
     ChassisSpeeds customDesiredSpeed;
     double customOmega;
-    if(Math.abs(desiredSpeeds.omegaRadiansPerSecond) < Constants.Drivebase.MIN_OMEGA_RADIANS_PER_SECOND) {
-      customDesiredSpeed = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(), swerve.getHeading());
+
+    if(Math.abs(desiredSpeeds.omegaRadiansPerSecond) < minOmegaRadiansPerSecond) {
+      customDesiredSpeed = swerve.getTargetSpeeds(-vX.getAsDouble(), -vY.getAsDouble(), swerve.getHeading());
       customOmega = 0;
     }
     else {

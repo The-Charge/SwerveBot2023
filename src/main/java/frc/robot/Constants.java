@@ -32,15 +32,15 @@ public final class Constants {
     public static final PIDFConfig yAutoPID = new PIDFConfig(0.7, 0, 0);
     public static final PIDFConfig angleAutoPID = new PIDFConfig(0.4, 0, 0.01);
 
-    public static final double MAX_SPEED = 4;
-    public static final double MAX_ACCELERATION = 2;
+    public static final double MAX_SPEED = 2;
+    public static final double MAX_ACCELERATION = 1;
   }
 
   public static final class Drivebase {
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
 
-    public static final double ROTATION_RATE_PER_SEC = 0.4; //2.5 seconds to go 180
+    public static final double ROTATION_RATE_PER_SEC = 0.8; //1.25 seconds to go 180
     public static final double MIN_OMEGA_RADIANS_PER_SECOND = 1;
   }
 
