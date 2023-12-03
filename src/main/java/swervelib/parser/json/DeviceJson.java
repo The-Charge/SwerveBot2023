@@ -103,6 +103,7 @@ public class DeviceJson {
         return new ADXRS450Swerve();
       case "analog":
         return new AnalogGyroSwerve(id);
+      case "navx":
       case "navx_spi":
         return new NavXSwerve(SPI.Port.kMXP);
       case "navx_i2c":
@@ -112,12 +113,9 @@ public class DeviceJson {
                 ".html#onboard-i2c-causing-system-lockups",
             false);
         return new NavXSwerve(I2C.Port.kMXP);
-      case "navx_onboard":
-        return new NavXSwerve(Port.kOnboard);
       case "navx_usb":
         return new NavXSwerve(Port.kUSB);
       case "navx_mxp":
-      case "navx":
         return new NavXSwerve(Port.kMXP);
       case "pigeon":
         return new PigeonSwerve(id);
