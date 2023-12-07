@@ -23,6 +23,7 @@ import frc.robot.commands.swervedrive.drivebase.CustomDrive;
 import frc.robot.commands.swervedrive.drivebase.CustomDriveV2;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very
@@ -53,7 +54,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    if(RobotBase.isSimulation()) {
+    if (RobotBase.isSimulation()) {
       rotationXboxAxis = 2;
     }
 
@@ -67,7 +68,7 @@ public class RobotContainer {
             OperatorConstants.LEFT_X_DEADBAND),
         () -> -driverXbox.getRightX(),
         () -> -driverXbox.getRightY());
-        
+
     AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
             OperatorConstants.LEFT_Y_DEADBAND),
@@ -89,7 +90,8 @@ public class RobotContainer {
             OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getRawAxis(rotationXboxAxis));
 
-    //drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
+    // drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive :
+    // closedFieldAbsoluteDrive);
     drivebase.setDefaultCommand(customDriveV2);
   }
 
