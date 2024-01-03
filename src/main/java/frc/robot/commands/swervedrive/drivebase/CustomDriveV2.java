@@ -68,7 +68,7 @@ public class CustomDriveV2 extends CommandBase {
   public void execute() {
 
     if(heading.getAsDouble() < -swerve.getSwerveController().config.angleJoyStickRadiusDeadband) {
-      customRotationSpeed = heading.getAsDouble()*swerve.getSwerveController().config.maxAngularVelocity;
+      customRotationSpeed = -heading.getAsDouble()*swerve.getSwerveController().config.maxAngularVelocity;
     }
     else if(heading.getAsDouble() > swerve.getSwerveController().config.angleJoyStickRadiusDeadband) {
       customRotationSpeed = -heading.getAsDouble()*swerve.getSwerveController().config.maxAngularVelocity;
