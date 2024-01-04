@@ -23,7 +23,7 @@ public class CustomDriveV2 extends CommandBase {
 
   private final SwerveSubsystem swerve;
   private final DoubleSupplier vX, vY, heading;
-  private double customRotationSpeed;
+  private double rotationSpeed;
 
   /**
    * Used to drive a swerve robot in full field-centric mode. vX and vY supply
@@ -53,7 +53,7 @@ public class CustomDriveV2 extends CommandBase {
     this.vY = vY;
     this.heading = heading;
     
-    customRotationSpeed = 0;
+    rotationSpeed = 0;
 
     addRequirements(swerve);
   }
@@ -67,22 +67,19 @@ public class CustomDriveV2 extends CommandBase {
   @Override
   public void execute() {
 
-    if(heading.getAsDouble() < -swerve.getSwerveController().config.angleJoyStickRadiusDeadband) {
-      customRotationSpeed = -heading.getAsDouble()*swerve.getSwerveController().config.maxAngularVelocity;
+    if (Math.abs(heading.getAsDouble()) > swerve.getSwerveController().config.angleJoyStickRadiusDeadband) {
+      rotationSpeed = heading.getAsDouble()*swerve.getSwerveController().config.maxAngularVelocity;
     }
-    else if(heading.getAsDouble() > swerve.getSwerveController().config.angleJoyStickRadiusDeadband) {
-      customRotationSpeed = -heading.getAsDouble()*swerve.getSwerveController().config.maxAngularVelocity;
-    }
-    else { 
-      customRotationSpeed = 0;
+    else {
+      rotationSpeed = 0;
     }
 
-    SmartDashboard.putNumber("A Custom Rotation Speed", customRotationSpeed);
+    SmartDashboard.putNumber("A Custom Rotation Speed", rotationSpeed);
 
-    ChassisSpeeds customDesiredSpeed = swerve.getTargetSpeeds(-vX.getAsDouble(), -vY.getAsDouble(), new Rotation2d(customRotationSpeed));
+    ChassisSpeeds desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(), new Rotation2d(rotationSpeed));
     
     // Limit velocity to prevent tippy
-    Translation2d translation = SwerveController.getTranslation2d(customDesiredSpeed);
+    Translation2d translation = SwerveController.getTranslation2d(desiredSpeeds);
     translation = SwerveMath.limitVelocity(translation, swerve.getFieldVelocity(), swerve.getPose(),
         Constants.LOOP_TIME, Constants.ROBOT_MASS, List.of(Constants.CHASSIS),
         swerve.getSwerveDriveConfiguration());
@@ -90,7 +87,7 @@ public class CustomDriveV2 extends CommandBase {
     SmartDashboard.putString("Translation", translation.toString());
 
     // Make the robot move
-    swerve.drive(translation, customRotationSpeed, true);
+    swerve.drive(translation, rotationSpeed, true);
   }
 
   // Called once the command ends or is interrupted.
